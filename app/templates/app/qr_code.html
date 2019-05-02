@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="" />
     <link rel="shortcut icon" href="" />
 
+    <!-- jqruery.js -->
+    <script
+      type="text/javascript"
+      src="{% static 'app/js/jquery-3.4.0.min.js' %}"
+    ></script>
+
     <!-- bootstrap -->
     <link
       rel="stylesheet"
@@ -29,9 +35,43 @@
   <body>
     <main class="container">
       <h1>qr code</h1>
+      <input
+        type="button"
+        value="QRコード取得"
+        class="btn btn-primary"
+        id="btn1"
+      />
       <h3>{{ request.build_absolute_uri }}</h3>
+      <h3>{{ request.get_host }}</h3>
       <h3>{{ img_file }}</h3>
+      <a href="/app/qr_code?url={{ request.get_host }}">go</a>
       <img src="/static/app/img/{{ img_file }}" />
     </main>
+
+    <script>
+      // ボタンを押した処理
+      $("#btn1").on("click", function() {
+        $.ajax({
+          url: "/app/qr_code/",
+          type: "GET",
+          data: { url: {{ request.get_host }} }
+        })
+          // Ajaxリクエストが成功した時発動
+          .done(data => {
+            $("#msg").text(JSON.stringify(data, null, "\t"));
+          })
+          // Ajaxリクエストが失敗した時発動
+          .fail(data => {
+            $("#msg").text(JSON.stringify(data, null, "\t"));
+          });
+      });
+
+      // ボタンを押さなくてもリターンキーで実行する
+      $("#keyword1").keypress(function(e) {
+        if (e.which == 13) {
+          $("#btn1").click();
+        }
+      });
+    </script>
   </body>
 </html>

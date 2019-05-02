@@ -131,14 +131,16 @@ def qr_code(request):
     # keywordがgetで与えられたとき(辞書のkeyが存在したら)
     if 'url' in request.GET:
         url = request.GET['url']
-
     else:
         url = None
 
+    print('url={}'.format(url))
+
     if url != None:
-        img = qrcode.make(url)
+        img = qrcode.make(url+'/app/data_input/')
     else:
         img = qrcode.make('http://www.yahoo.co.jp')
+
     # print(type(img))
     # print(img.size)
     # <class 'qrcode.image.pil.PilImage'>
