@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <link rel="shortcut icon" href="" />
+
+    <!-- bootstrap -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'app/css/bootstrap.min.css' %}"
+    />
+    <script src="{% static 'app/js/bootstrap.min.js' %}"></script>
+
+    <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> -->
+
+    <script src="{% static 'app/js/plotly-latest.min.js' %}"></script>
+  </head>
+
+  <body>
+    <main class="container">
+      <a href="/app/data_input">data input</a>
+      <a href="/app/qr_code">QR code</a>
+      <h2>{{ title }}</h2>
+
+      <div id="myDiv">
+        <!-- Plotly chart will be drawn inside this DIV -->
+      </div>
+    </main>
+
+    <script>
+
+      var layout = {
+          title: 'ムダ作業分析',
+          xaxis: {
+       //    range: ["2018-02-01 12:16:38", "2018-02-01 12:17:58"],
+              rangeslider: {}
+          },
+          yaxis: {
+              fixedrange: true
+          }
+      };
+      var data = [
+          {
+              x: {{ data_x | safe }},
+              y:  {{ data_y | safe }},
+              line: { shape: 'hv' },
+              type: 'scatter',
+              fill: 'tozeroy',
+          }
+      ];
+
+      Plotly.newPlot('myDiv', data, layout, { showSendToCloud: true });
+    </script>
+  </body>
+</html>
