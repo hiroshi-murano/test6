@@ -21,19 +21,21 @@ def index(request):
     """
     """
 
-    day1 = datetime.date.today()    # 今日を取得(時間は含まず)
-    day2 = day1 + datetime.timedelta(days=1)  # 1日加算
+    # day1 = datetime.date.today()    # 今日を取得(時間は含まず)
+    day = datetime.datetime.today()
+    day1 = day + datetime.timedelta(minutes=-10)
+    day2 = day + datetime.timedelta(days=1)  # 1日加算
 
-    str_day1 = day1.strftime("%Y-%m-%d")
-    str_day2 = day2.strftime("%Y-%m-%d")
+    str_day1 = day1.strftime("%Y-%m-%d %H:%M:%S")
+    str_day2 = day2.strftime("%Y-%m-%d %H:%M:%S")
 
     conn = sqlite3.connect(DB)
     cur = conn.cursor()
     cmd = "select * from sagyo_log where dt>='{}' and dt<'{}' ".format(
         str_day1, str_day2)
-    # print('---------')
-    # print(cmd)
-    # print('---------')
+    print('---------')
+    print(cmd)
+    print('---------')
     cur.execute(cmd)
     lst = cur.fetchall()
 
@@ -106,6 +108,8 @@ def insert_date(dt, status):
 
     conn = sqlite3.connect(DB)
     cur = conn.cursor()
+
+    print('{} にステータス {} をインサートします'.format(dt, status))
 
     sql = "insert into sagyo_log('user_id','sagyo','dt','status') values (?,?,?,?)"
     # dt1=datetime.datetime.now()
