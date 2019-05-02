@@ -137,7 +137,7 @@ def qr_code(request):
     print('url={}'.format(url))
 
     if url != None:
-        img = qrcode.make(url+'/app/data_input/')
+        img = qrcode.make('http://' + url+'/app/data_input/')
     else:
         img = qrcode.make('http://www.yahoo.co.jp')
 
