@@ -53,26 +53,35 @@
     <script>
       // ボタンを押した処理
       $("#btn1").on("click", function() {
-        $.ajax({
-          url: "/app/qr_code/",
-          type: "GET",
-          data: { url: {{ request.get_host }} }
-        })
-          // Ajaxリクエストが成功した時発動
-          .done(data => {
-            $("#msg").text(JSON.stringify(data, null, "\t"));
-          })
-          // Ajaxリクエストが失敗した時発動
-          .fail(data => {
-            $("#msg").text(JSON.stringify(data, null, "\t"));
-          });
-      });
+        console.log("aaaaa");
 
-      // ボタンを押さなくてもリターンキーで実行する
-      $("#keyword1").keypress(function(e) {
-        if (e.which == 13) {
-          $("#btn1").click();
-        }
+        $.ajax({
+
+          console.log("bbb")
+
+        }).then( console.log("ccc"),  console.log("ddd") )
+
+        //    $.ajax({
+        //      url: "/app/qr_code/",
+        //      type: "GET",
+        //      data: { url: "abc" },
+        //    })
+        //      // Ajaxリクエストが成功した時発動
+        //      .done(data => {
+        //        $("#msg").text(JSON.stringify(data, null, "\t"));
+        //      })
+
+        //      // Ajaxリクエストが失敗した時発動
+        //      .fail(data => {
+        //        $("#msg").text(JSON.stringify(data, null, "\t"));
+        //      })
+        //  })
+
+        // ボタンを押さなくてもリターンキーで実行する
+        // $("#keyword1").keypress(function(e) {
+        //   if (e.which == 13) {
+        //     $("#btn1").click();
+        //   }
       });
     </script>
   </body>
