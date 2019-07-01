@@ -161,3 +161,10 @@ def qr_code(request):
     context = {'img_file': img_file}
 
     return render(request, 'app/qr_code.html', context)
+
+
+def qr_camera(request):
+
+    context = {'title': 'title'}
+
+    return render(request, 'app/qr_camera.html', context)

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>正味作業</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <link rel="shortcut icon" href="" />
+
+    <!-- jqruery.js -->
+    <script
+      type="text/javascript"
+      src="{% static 'app/js/jquery-3.4.0.min.js' %}"
+    ></script>
+
+    <!-- bootstrap -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'app/css/bootstrap.min.css' %}"
+    />
+    <script src="{% static 'app/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'app/js/qr_packed.js' %}"></script>
+
+    <style>
+      body,
+      input {
+        font-size: 14pt;
+      }
+      input,
+      label {
+        vertical-align: middle;
+      }
+      .qrcode-text {
+        padding-right: 1.7em;
+        margin-right: 0;
+      }
+      .qrcode-text-btn {
+        display: inline-block;
+        background: url(" {% static 'app/img/qr_icon.svg' %} ") 50% 50%
+          no-repeat;
+        height: 1em;
+        width: 1.7em;
+        margin-left: -1.7em;
+        cursor: pointer;
+      }
+      .qrcode-text-btn > input[type="file"] {
+        position: absolute;
+        overflow: hidden;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <h1>QR camera</h1>
+
+      <input
+        type="text"
+        size="64"
+        placeholder="Tracking Code"
+        class="qrcode-text"
+      /><label class="qrcode-text-btn"
+        ><input
+          type="file"
+          accept="image/*"
+          capture="environment"
+          onchange="openQRCamera(this);"
+          tabindex="-1"
+      /></label>
+      <input type="button" value="Go" disabled />
+    </main>
+
+    <script>
+      function openQRCamera(node) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          node.value = "";
+          qrcode.callback = function(res) {
+            if (res instanceof Error) {
+              alert(
+                "No QR code found. Please make sure the QR code is within the camera's frame and try again."
+              );
+            } else {
+              node.parentNode.previousElementSibling.value = res;
+            }
+          };
+          qrcode.decode(reader.result);
+        };
+        reader.readAsDataURL(node.files[0]);
+      }
+    </script>
+  </body>
+</html>
